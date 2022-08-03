@@ -1,6 +1,8 @@
 package com.sparta.springhomework.service;
 
 import com.sparta.springhomework.domain.*;
+import com.sparta.springhomework.dto.BoardRequestDto;
+import com.sparta.springhomework.dto.BoardResponse;
 import com.sparta.springhomework.dto.CommentDto;
 
 import java.util.List;

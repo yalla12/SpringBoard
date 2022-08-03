@@ -1,6 +1,7 @@
 package com.sparta.springhomework.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.sparta.springhomework.dto.BoardRequestDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;

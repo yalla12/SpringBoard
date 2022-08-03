@@ -1,19 +1,19 @@
 package com.sparta.springhomework.service;
 
 import com.sparta.springhomework.domain.*;
+import com.sparta.springhomework.dto.BoardRequestDto;
+import com.sparta.springhomework.dto.BoardResponse;
 import com.sparta.springhomework.dto.CommentDto;
 import com.sparta.springhomework.dto.UserDto;
+import com.sparta.springhomework.repository.BoardRepository;
 import com.sparta.springhomework.repository.CommentRepository;
-import com.sparta.springhomework.security.jwt.JwtFilter;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service

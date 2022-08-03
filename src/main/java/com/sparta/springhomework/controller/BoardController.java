@@ -1,8 +1,8 @@
 package com.sparta.springhomework.controller;
 
 import com.sparta.springhomework.domain.Board;
-import com.sparta.springhomework.domain.BoardRequestDto;
-import com.sparta.springhomework.domain.BoardResponse;
+import com.sparta.springhomework.dto.BoardRequestDto;
+import com.sparta.springhomework.dto.BoardResponse;
 import com.sparta.springhomework.domain.Comment;
 import com.sparta.springhomework.dto.CommentDto;
 import com.sparta.springhomework.service.BoardService;
