@@ -26,6 +26,25 @@ dependencies {
     runtimeOnly 'mysql:mysql-connector-java'
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+    // 스프링 시큐리티
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+
+    // 스프링 validation 추가
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
+
+
+    // JWT
+//    implementation 'io.jsonwebtoken:jjwt-api:0.11.2'
+//    implementation 'commons-codec:commons-codec:1.5'
+//    runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.2'
+//    runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.2'
+//    compileOnly 'com.auth0:java-jwt:3.13.0'
+//    implementation 'javax.xml.bind:jaxb-api'
+
+    implementation group: 'io.jsonwebtoken', name: 'jjwt-api', version: '0.11.2'
+    runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-impl', version: '0.11.2'
+    runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-jackson', version: '0.11.2'
 }
 
 tasks.named('test') {

@@ -1,10 +1,14 @@
 package com.sparta.springhomework.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
+
 @ToString
 @Getter
 @NoArgsConstructor
@@ -13,6 +17,7 @@ public class Board extends Timestamped  {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO) // id 자동 증가 명령
+    @Column(name = "board_id")
     private Long id; // 게시물 id
 
     @Column(nullable = false)
@@ -26,6 +31,10 @@ public class Board extends Timestamped  {
 
     @Column(nullable = false)
     private String pwd; // 글 비빌번호
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "board", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE)
+    private List<Comment> comments = new ArrayList<>();
 
 
     public Board(BoardRequestDto boardRequestDto) {

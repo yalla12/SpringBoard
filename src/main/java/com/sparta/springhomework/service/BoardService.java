@@ -1,7 +1,12 @@
 package com.sparta.springhomework.service;
 
 import com.sparta.springhomework.domain.*;
+import com.sparta.springhomework.dto.CommentDto;
+import com.sparta.springhomework.dto.UserDto;
+import com.sparta.springhomework.repository.CommentRepository;
+import com.sparta.springhomework.security.jwt.JwtFilter;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +20,9 @@ import java.util.Optional;
 public class BoardService implements BoardSeviceInterface {
 
     private final BoardRepository boardRepository;
+
+    private final CommentRepository commentRepository;
+    private final UserService userService;
 
 
     @Override
@@ -35,7 +43,7 @@ public class BoardService implements BoardSeviceInterface {
 
     @Transactional
     @Override
-    public void boardSave(BoardRequestDto boardRequestDto) {
+    public Board boardSave(BoardRequestDto boardRequestDto) {
         Board board = new Board(boardRequestDto);
         // 제목 빈 값 체크
         if (board.getTitle() == null || board.getTitle().isEmpty()) {
@@ -53,14 +61,13 @@ public class BoardService implements BoardSeviceInterface {
         if (board.getContent() == null || board.getContent().isEmpty()) {
             throw new NullPointerException("내용이 공백입니다.");
         }
-        boardRepository.save(board);
+
+        return boardRepository.save(board);
 
     }
 
     @Override
     public Board boardSelect(Long id) {
-
-
         Board board = boardRepository.findById(id).orElseThrow(
                 () -> new IllegalArgumentException("해당 아이디가 존재하지 않습니다.")
         );
@@ -80,17 +87,81 @@ public class BoardService implements BoardSeviceInterface {
 
     @Transactional
     @Override
-    public void boardUpdate(Long id, BoardRequestDto boardRequestDto) {
+    public Board boardUpdate(Long id, BoardRequestDto boardRequestDto) {
+        UserDto userDto = userService.getMyUserWithAuthorities();
+        System.out.println("작성자 : " + boardRequestDto.getWriter());
+        System.out.println("사용자 : " + userDto.getUsername());
         Board board = boardSelect(id);
+
+        if(!board.getWriter().equals(userDto.getUsername())) {
+            throw new IllegalArgumentException("작성자가 일치하지 않습니다.");
+        }
+
+        boardRequestDto.setPwd(board.getPwd());
         board.update(boardRequestDto);
-        boardRepository.save(board);
+        return boardRepository.save(board);
 
     }
 
     @Transactional
     @Override
     public void boardDelete(Long id) {
+        Board board = boardSelect(id);
+        UserDto userDto = userService.getMyUserWithAuthorities();
+
+        if(!board.getWriter().equals(userDto.getUsername())) {
+            throw new IllegalArgumentException("작성자가 일치하지 않습니다.");
+        }
+
         boardRepository.deleteById(id);
 
     }
+
+    @Transactional
+    @Override
+    public Comment saveComment(CommentDto commentDto) {
+        Board board = boardSelect(commentDto.getBoardId());
+        Comment comment = new Comment(commentDto, board);
+
+        return commentRepository.save(comment);
+
+    }
+
+    @Override
+    public List<Comment> findByComment(Long id) {
+        Board board = boardSelect(id);
+        return commentRepository.findAllByBoard(board);
+    }
+
+    @Transactional
+    @Override
+    public Comment updateComment(Long id, CommentDto commentDto) {
+        UserDto userDto = userService.getMyUserWithAuthorities();
+        Comment comment = commentRepository.findById(id).orElseThrow(
+                () -> new IllegalArgumentException("해당 아이디가 존재하지 않습니다.")
+        );
+
+        if(!comment.getWriter().equals(userDto.getUsername())) {
+            throw new IllegalArgumentException("작성자가 일치하지 않습니다.");
+        }
+        comment.update(commentDto);
+        return commentRepository.save(comment);
+    }
+    @Transactional
+    @Override
+    public void deleteComment(Long id) {
+        UserDto userDto = userService.getMyUserWithAuthorities();
+
+        Comment comment = commentRepository.findById(id).orElseThrow(
+                () -> new IllegalArgumentException("해당 아이디가 존재하지 않습니다.")
+        );
+
+        if(!comment.getWriter().equals(userDto.getUsername())) {
+            throw new IllegalArgumentException("작성자가 일치하지 않습니다.");
+        }
+
+        commentRepository.deleteById(id);
+    }
+
+
 }
