@@ -33,12 +33,5 @@
 **6. API 명세서 작성 가이드라인을 검색하여 직접 작성한 명세서와 비교해보세요!**
 
 * 요청 주소: http://sparta-sh.shop/api/board
-
-|API 이름|URL 주소|오퍼레이션 유형|교환 데이터 포맷|기타|
-|:---|:---:|:---:|:---:|:---|
-|전체 게시글 목록 조회|/findAll|REST/GET|JSON| |
-|게시글 작성|/save|REST/POST|JSON|body데이터 필요|
-|게시글 조회|/findOne/{id}|REST/GET|JSON| |
-|비밀번호 확인|/pwdCheck/{id}/{pwd}|REST/GET|JSON| |
-|게시글 수정|/update/{id}|REST/PUT|JSON|body데이터 필요 |
-|게시글 삭제|/delete/{id}|REST/DELETE|JSON| |
+API 명세서
+https://yalla12.tistory.com/19
