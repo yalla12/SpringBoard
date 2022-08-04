@@ -33,5 +33,6 @@
 **6. API 명세서 작성 가이드라인을 검색하여 직접 작성한 명세서와 비교해보세요!**
 
 * 요청 주소: http://sparta-sh.shop/api/board
-API 명세서
-https://yalla12.tistory.com/19
+
+
+*API 명세서: https://yalla12.tistory.com/19
